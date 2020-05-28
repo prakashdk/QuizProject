@@ -1,0 +1,151 @@
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import {
+  Radio,
+  FormLabel,
+  FormControlLabel,
+  FormControl,
+  RadioGroup,
+  Button,
+  LinearProgress,
+  FormHelperText,
+} from "@material-ui/core";
+
+function ShowQuiz(props) {
+  let quiz = props.quizz;
+
+  const [time, setTime] = useState(100);
+  const [toggle, setToggle] = useState(false);
+  const [selectedAnswer, setSelectedAnswer] = useState(0);
+  const [originalAnswer, setOriginalAnswer] = useState(0);
+  const [points, setPoint] = useState(0);
+  const [questionNumber, setNumber] = useState(0);
+  const [helperText, setHelperText] = useState("");
+  const handleAnswer = (event, ans) => {
+    setSelectedAnswer(event.target.value);
+    setOriginalAnswer(ans);
+  };
+  /*var timeObject=setInterval(quizTimer(),1000);
+  function quizTimer() {
+    var b;
+    if (time <= 0) {
+      clearInterval(timeObject);
+    } else {
+      var i = time;
+      i = i - 4;
+      setTime(i);
+      console.log(time);
+    }
+  }*/
+
+  const checkAnswer = () => {
+    if (parseInt(selectedAnswer) === 0) {
+      setHelperText("select something");
+    } else if (parseInt(selectedAnswer) === parseInt(originalAnswer)) {
+      setHelperText("you got it");
+      var p = points + 10;
+      setPoint(p);
+      checkNextQuestion();
+    } else {
+      setHelperText("Sorry, wrong answer");
+      checkNextQuestion();
+    }
+  };
+  const checkNextQuestion = () => {
+    if (questionNumber + 1 < quiz.length) {
+      var i = questionNumber;
+      i++;
+      setNumber(i);
+      setSelectedAnswer(0);
+    } else {
+      setToggle(true);
+      setHelperText("Quiz over");
+    }
+  };
+  return (
+    <div>
+      <div className="timer">
+        <LinearProgress
+          variant="determinate"
+          value={time}
+          color="secondary"
+        ></LinearProgress>
+      </div>
+      <div style={{ top: "0", marginTop: "2%" }}>
+        <b style={{ float: "left" }}>Points : {points}</b>
+        <Button
+          style={{ float: "right" }}
+          variant="contained"
+          color="secondary"
+          onClick={() => {
+            setToggle(true);
+            alert("Quiz over");
+          }}
+        >
+          End Test
+        </Button>
+      </div>
+      <div className="content-body">
+        <FormControl component="fieldset">
+          <FormLabel
+            style={{
+              marginLeft: "-10%",
+              font: "bold",
+              fontSize: "30px",
+              color: "#2a3eb1",
+            }}
+          >
+            {questionNumber + 1}
+            {"."}
+            {quiz[questionNumber].question}
+          </FormLabel>
+          <RadioGroup
+            value={selectedAnswer}
+            onChange={(event) => {
+              handleAnswer(event, quiz[questionNumber].option);
+            }}
+          >
+            <FormControlLabel
+              value="1"
+              control={<Radio />}
+              label={quiz[questionNumber].option1}
+            />
+            <FormControlLabel
+              value="2"
+              control={<Radio />}
+              label={quiz[questionNumber].option2}
+            />
+            <FormControlLabel
+              value="3"
+              control={<Radio />}
+              label={quiz[questionNumber].option2}
+            />
+            <FormControlLabel
+              value="4"
+              control={<Radio />}
+              label={quiz[questionNumber].option4}
+            />
+          </RadioGroup>
+          <FormHelperText error>{helperText}</FormHelperText>
+        </FormControl>
+        <div className="margin">
+          <Button
+            disabled={toggle}
+            variant="contained"
+            color="primary"
+            onClick={checkAnswer}
+          >
+            Next
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}
+const mapStateToProps = (state, ownProps) => {
+  return {
+    ...ownProps,
+    quizz: state.totalQuizz,
+  };
+};
+export default connect(mapStateToProps)(ShowQuiz);

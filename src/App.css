@@ -1,0 +1,66 @@
+.head{
+    text-align: center;
+    font-size: 50px;
+    color: purple;
+    border: 1px solid white;
+    background-color: white;
+    border-radius: 40px;
+    padding: 1%;
+}
+.drawer{
+    width: 100%;
+    padding-bottom: 20%;
+}
+.logo{
+    text-align: center;
+    margin-left: 25%;
+    margin-top: 5%;
+    width: 50%;
+    padding: 1%;
+}
+.first-body{
+    top:0;
+    position: fixed;
+    margin-top: 5%;
+    background-color: white;
+    width: 8%;
+    border: 1px solid white;
+    padding: 1%;
+
+}
+.content-body{
+    text-align: center;
+    margin-left: 25%;
+    margin-top: 5%;
+    background-color: white;
+    width: 50%;
+    border: 1px solid white;
+    padding: 1%;
+}
+.enter-button{
+    margin-top:5%;
+}
+.join{
+    text-decoration: none;
+    padding: 5%;
+    border: 1px solid purple;
+    background-color: purple;
+    color: white;
+}
+.create{
+    text-decoration: none;
+    padding: 5%;
+    border: 1px solid purple;
+    background-color: purple;
+    color: white;
+}
+.pwd{
+    text-decoration: none;
+    padding: 1%;
+    border: 1px solid purple;
+    background-color: purple;
+    color: white;
+}
+.margin{
+    margin-top: 5%;
+}
