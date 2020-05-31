@@ -8,13 +8,13 @@ function QuizFundamentals() {
       <div className="content-body">
         <Switch>
           <Route exact path="/create/create-quizz/mcq">
-            <Mcq></Mcq>
+            <Mcq event={1}></Mcq>
           </Route>
           <Route exact path="/create/create-quizz/fill">
-            <Mcq events={2}></Mcq>
+            <Mcq event={2}></Mcq>
           </Route>
           <Route exact path="/create/create-quizz/cb">
-            <Mcq events={3}></Mcq>
+            <Mcq event={3}></Mcq>
           </Route>
           <Route>
             <div className="margin">

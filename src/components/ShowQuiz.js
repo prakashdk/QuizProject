@@ -9,6 +9,7 @@ import {
   Button,
   LinearProgress,
   FormHelperText,
+  TextField,
 } from "@material-ui/core";
 
 function ShowQuiz(props) {
@@ -18,6 +19,7 @@ function ShowQuiz(props) {
   const [toggle, setToggle] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState(0);
   const [originalAnswer, setOriginalAnswer] = useState(0);
+  const [fillAnswer,setFillAnswer]=useState("");
   const [points, setPoint] = useState(0);
   const [questionNumber, setNumber] = useState(0);
   const [helperText, setHelperText] = useState("");
@@ -59,16 +61,31 @@ function ShowQuiz(props) {
   }*/
 
   const checkAnswer = () => {
-    if (parseInt(selectedAnswer) === 0) {
-      setHelperText("select something");
-    } else if (parseInt(selectedAnswer) === parseInt(originalAnswer)) {
-      setHelperText("you got it");
-      var p = points + 10;
-      setPoint(p);
-      checkNextQuestion();
-    } else {
-      setHelperText("Sorry, wrong answer");
-      checkNextQuestion();
+    if(quiz[questionNumber].type===1){
+      if (parseInt(selectedAnswer) === 0) {
+        setHelperText("select something");
+      } else if (parseInt(selectedAnswer) === parseInt(originalAnswer)) {
+        setHelperText("you got it");
+        var p = points + 10;
+        setPoint(p);
+        checkNextQuestion();
+      } else {
+        setHelperText("Sorry, wrong answer");
+        checkNextQuestion();
+      }
+    }
+    else if(quiz[questionNumber].type===2){
+      if (fillAnswer === "") {
+        setHelperText("write something");
+      } else if (quiz[questionNumber].answer=== fillAnswer) {
+        setHelperText("you got it");
+        var p = points + 10;
+        setPoint(p);
+        checkNextQuestion();
+      } else {
+        setHelperText("Sorry, wrong answer");
+        checkNextQuestion();
+      }
     }
   };
   const checkNextQuestion = () => {
@@ -119,33 +136,47 @@ function ShowQuiz(props) {
             {"."}
             {quiz[questionNumber].question}
           </FormLabel>
-          <RadioGroup
-            value={selectedAnswer}
-            onChange={(event) => {
-              handleAnswer(event, quiz[questionNumber].option);
-            }}
-          >
-            <FormControlLabel
-              value="1"
-              control={<Radio />}
-              label={quiz[questionNumber].option1}
-            />
-            <FormControlLabel
-              value="2"
-              control={<Radio />}
-              label={quiz[questionNumber].option2}
-            />
-            <FormControlLabel
-              value="3"
-              control={<Radio />}
-              label={quiz[questionNumber].option2}
-            />
-            <FormControlLabel
-              value="4"
-              control={<Radio />}
-              label={quiz[questionNumber].option4}
-            />
-          </RadioGroup>
+          {quiz[questionNumber].type === 1 && (
+            <RadioGroup
+              value={selectedAnswer}
+              onChange={(event) => {
+                handleAnswer(event, quiz[questionNumber].option);
+              }}
+            >
+              <FormControlLabel
+                value="1"
+                control={<Radio />}
+                label={quiz[questionNumber].option1}
+              />
+              <FormControlLabel
+                value="2"
+                control={<Radio />}
+                label={quiz[questionNumber].option2}
+              />
+              <FormControlLabel
+                value="3"
+                control={<Radio />}
+                label={quiz[questionNumber].option2}
+              />
+              <FormControlLabel
+                value="4"
+                control={<Radio />}
+                label={quiz[questionNumber].option4}
+              />
+            </RadioGroup>
+          )}
+          {quiz[questionNumber].type === 2 && (
+            <div className="margin">
+              <TextField
+                variant="standard"
+                label="Type Answer..."
+                fullWidth
+                onChange={(event)=>{
+                  setFillAnswer(event.target.value);
+                }}
+              ></TextField>
+            </div>
+          )}
           <FormHelperText error>{helperText}</FormHelperText>
         </FormControl>
         <div className="margin">

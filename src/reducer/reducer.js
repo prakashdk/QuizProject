@@ -2,12 +2,13 @@ const initialState = {
   totalQuizz: [
     {
       option: 4,
-      answer: 0,
+      answer: "",
       option1: "Ready",
       option2: "Get",
       option3: "Set",
       option4: "Go",
       question: "Status of your quiz...(For Checking)",
+      type:1,
     },
   ],
   code: 123456,

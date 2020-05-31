@@ -19,14 +19,15 @@ function ShowWinner(props) {
   return (
     <div className="winner">
       <div className="avatar">
-        <Avatar className={classes.orange}>
+        <Avatar alt="" className={classes.orange}>
           {props.player[0].name.charAt(0).toUpperCase()}
         </Avatar>
       </div>
       <div className="winner-point">
         The winner is
         <div className="winner-name">{props.player[0].name}!</div>
-        with <span className="winner-name">{props.player[0].scores}</span> points
+        with <span className="winner-name">{props.player[0].scores}</span>{" "}
+        points
       </div>
     </div>
   );
