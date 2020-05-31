@@ -48,6 +48,7 @@
     color: white;
 }
 .create{
+    text-align: center;
     text-decoration: none;
     padding: 5%;
     border: 1px solid purple;
@@ -61,6 +62,33 @@
     background-color: purple;
     color: white;
 }
+.end{
+    text-decoration: none;
+    padding: 3%;
+    border: 1px solid #3654fd;
+    background-color: #3654fd;
+    border-radius: 5px;
+    color: white;
+}
 .margin{
     margin-top: 5%;
+}
+.avatar{
+    margin-left: 42%;
+    padding: 5%;
+}
+.winner-name{
+    
+    font-size: 40px;
+    color: gold;
+
+}
+.winner-point{
+    font-size: large;
+    color: rgb(17, 142, 245); 
+}
+.winner{
+    border: 5px groove blueviolet;
+    border-radius: 10px;
+    
 }

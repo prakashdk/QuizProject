@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Link, Switch, Route } from "react-router-dom";
 
 import CreateQuiz from "./components/CreateQuiz";
 import JoinQuiz from "./components/JoinQuiz";
+import ShowParticipants from './components/ShowParticipants';
 import { CardMedia } from "@material-ui/core";
 import logo from "./Images/logo.png";
 
@@ -16,12 +17,17 @@ function App() {
       <div className="first-body">
         <div className="drawer">
           <Link className="join" to="/join">
-            join a game
+            Join a game
           </Link>
         </div>
         <div className="drawer">
           <Link className="create" to="/create">
-            create quiz
+            Create quiz
+          </Link>
+        </div>
+        <div className="drawer">
+          <Link className="create" to="/parcipants">
+            Participants
           </Link>
         </div>
       </div>
@@ -32,6 +38,9 @@ function App() {
         </Route>
         <Route exact path="/create">
           <CreateQuiz></CreateQuiz>
+        </Route>
+        <Route exact path="/parcipants">
+          <ShowParticipants></ShowParticipants>
         </Route>
         <Route>
           <img className="logo" src={logo} alt="Logo" />

@@ -1,15 +1,23 @@
 const initialState = {
-  totalQuizz: [{
-    option: 4,
-    answer: 0,
-    option1: "Ready",
-    option2: "Get",
-    option3: "Set",
-    option4: "Go",
-    question: "Status of your quiz...(For Checking)",
-  }],
+  totalQuizz: [
+    {
+      option: 4,
+      answer: 0,
+      option1: "Ready",
+      option2: "Get",
+      option3: "Set",
+      option4: "Go",
+      question: "Status of your quiz...(For Checking)",
+    },
+  ],
   code: 123456,
-  name:"",
+  name: "",
+  participants: [
+    {
+      name: "Prakash",
+      scores: 10000,
+    },
+  ],
 };
 export default function reducer(state = initialState, action) {
   switch (action.type) {
@@ -23,10 +31,15 @@ export default function reducer(state = initialState, action) {
         ...state,
         code: action.code,
       };
-      case "SET_NAME":
+    case "SET_NAME":
       return {
         ...state,
         name: action.name,
+      };
+    case "SET_PARTICIPANTS":
+      return {
+        ...state,
+        participants: action.participants,
       };
     default:
       return {

@@ -20,6 +20,7 @@ function CreateQuiz() {
             <TextField
               id="outlined-basic"
               label="Password"
+              type="password"
               variant="outlined"
               onChange={(event) => {
                 setPassword(event.target.value);

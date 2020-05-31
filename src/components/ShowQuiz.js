@@ -25,6 +25,26 @@ function ShowQuiz(props) {
     setSelectedAnswer(event.target.value);
     setOriginalAnswer(ans);
   };
+  useEffect(() => {
+    let newPlayer = [...props.participants];
+    const p = {
+      name: props.name,
+      scores: points,
+    };
+    const i = newPlayer.findIndex((data) => {
+      return data.name === props.name;
+    });
+    if (i === -1) {
+      newPlayer.push(p);
+    } else {
+      newPlayer[i] = p;
+    }
+    newPlayer.sort(function (a, b) {
+      return a["scores"] - b["scores"];
+    });
+    newPlayer.reverse();
+    props.setParticipants(newPlayer);
+  }, [points]);
   /*var timeObject=setInterval(quizTimer(),1000);
   function quizTimer() {
     var b;
@@ -146,6 +166,18 @@ const mapStateToProps = (state, ownProps) => {
   return {
     ...ownProps,
     quizz: state.totalQuizz,
+    name: state.name,
+    participants: state.participants,
   };
 };
-export default connect(mapStateToProps)(ShowQuiz);
+const mapDispathToProps = (dispatch) => {
+  return {
+    setParticipants: (p) => {
+      dispatch({
+        type: "SET_PARTICIPANTS",
+        participants: p,
+      });
+    },
+  };
+};
+export default connect(mapStateToProps, mapDispathToProps)(ShowQuiz);
