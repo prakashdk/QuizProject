@@ -26,6 +26,7 @@ function JoinQuiz(props) {
       });
       if (i === -1) {
         setLink("/join/join-quizz");
+        setHelperText("verified, now go");
       } else {
         setLink("");
         setHelperText("this name is already taken");

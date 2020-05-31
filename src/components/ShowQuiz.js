@@ -156,7 +156,7 @@ function ShowQuiz(props) {
               <FormControlLabel
                 value="3"
                 control={<Radio />}
-                label={quiz[questionNumber].option2}
+                label={quiz[questionNumber].option3}
               />
               <FormControlLabel
                 value="4"
