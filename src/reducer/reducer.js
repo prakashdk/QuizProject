@@ -9,6 +9,7 @@ const initialState = {
       option4: "Go",
       question: "Status of your quiz...(For Checking)",
       type:1,
+      answerBox:[]
     },
   ],
   code: 123456,

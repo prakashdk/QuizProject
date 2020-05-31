@@ -10,16 +10,18 @@ import {
   LinearProgress,
   FormHelperText,
   TextField,
+  Checkbox,
 } from "@material-ui/core";
 
 function ShowQuiz(props) {
   let quiz = props.quizz;
-
+  let checkboxAnswers = [];
+  const [answerBox, setAnswerBox] = useState([]);
   const [time, setTime] = useState(100);
   const [toggle, setToggle] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState(0);
   const [originalAnswer, setOriginalAnswer] = useState(0);
-  const [fillAnswer,setFillAnswer]=useState("");
+  const [fillAnswer, setFillAnswer] = useState("");
   const [points, setPoint] = useState(0);
   const [questionNumber, setNumber] = useState(0);
   const [helperText, setHelperText] = useState("");
@@ -60,8 +62,22 @@ function ShowQuiz(props) {
     }
   }*/
 
+  const handleCheck=(event,v)=>{
+    if(event.target.checked===true){
+      checkboxAnswers=[...answerBox,v];
+    }
+    else{
+      checkboxAnswers=[...answerBox];
+      let newArray=checkboxAnswers.filter((data)=>{
+        return data!==v;
+      });
+      checkboxAnswers=[...newArray];
+
+    }
+    setAnswerBox(checkboxAnswers);
+  }
   const checkAnswer = () => {
-    if(quiz[questionNumber].type===1){
+    if (quiz[questionNumber].type === 1) {
       if (parseInt(selectedAnswer) === 0) {
         setHelperText("select something");
       } else if (parseInt(selectedAnswer) === parseInt(originalAnswer)) {
@@ -73,11 +89,20 @@ function ShowQuiz(props) {
         setHelperText("Sorry, wrong answer");
         checkNextQuestion();
       }
-    }
-    else if(quiz[questionNumber].type===2){
+    } else if (quiz[questionNumber].type === 2) {
       if (fillAnswer === "") {
         setHelperText("write something");
-      } else if (quiz[questionNumber].answer=== fillAnswer) {
+      } else if (quiz[questionNumber].answer === fillAnswer) {
+        setHelperText("you got it");
+        var p = points + 10;
+        setPoint(p);
+        checkNextQuestion();
+      } else {
+        setHelperText("Sorry, wrong answer");
+        checkNextQuestion();
+      }
+    } else if (quiz[questionNumber].type === 3) {
+      if (isEqual(quiz[questionNumber].answerBox,answerBox)) {
         setHelperText("you got it");
         var p = points + 10;
         setPoint(p);
@@ -89,6 +114,7 @@ function ShowQuiz(props) {
     }
   };
   const checkNextQuestion = () => {
+    setHelperText("");
     if (questionNumber + 1 < quiz.length) {
       var i = questionNumber;
       i++;
@@ -99,6 +125,11 @@ function ShowQuiz(props) {
       setHelperText("Quiz over");
     }
   };
+  const isEqual=(arr1,arr2)=>{
+    var a1=arr1.sort().toString();
+    var a2=arr2.sort().toString();
+    return a1===a2;
+  }
   return (
     <div>
       <div className="timer">
@@ -171,10 +202,38 @@ function ShowQuiz(props) {
                 variant="standard"
                 label="Type Answer..."
                 fullWidth
-                onChange={(event)=>{
+                onChange={(event) => {
                   setFillAnswer(event.target.value);
                 }}
               ></TextField>
+            </div>
+          )}
+          {quiz[questionNumber].type === 3 && (
+            <div>
+              <div>
+                <FormControlLabel
+                  control={<Checkbox onChange={(event)=>{handleCheck(event,1)}} />}
+                  label={quiz[questionNumber].option1}
+                />
+              </div>
+              <div>
+                <FormControlLabel
+                  control={<Checkbox onChange={(event)=>{handleCheck(event,2)}} />}
+                  label={quiz[questionNumber].option2}
+                />
+              </div>
+              <div>
+                <FormControlLabel
+                  control={<Checkbox onChange={(event)=>{handleCheck(event,3)}} />}
+                  label={quiz[questionNumber].option3}
+                />
+              </div>
+              <div>
+                <FormControlLabel
+                  control={<Checkbox onChange={(event)=>{handleCheck(event,4)}} />}
+                  label={quiz[questionNumber].option4}
+                />
+              </div>
             </div>
           )}
           <FormHelperText error>{helperText}</FormHelperText>

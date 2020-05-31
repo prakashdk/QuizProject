@@ -9,8 +9,11 @@ import {
   Checkbox,
   Button,
 } from "@material-ui/core";
+import { Router } from "react-router-dom";
 
 function Mcq(props) {
+  let checkboxAnswers = [];
+  const [answerBox, setAnswerBox] = useState([]);
   const [option, setOption] = useState(0);
   const [answer, setAnswer] = useState("");
   const [option1, setOption1] = useState("");
@@ -20,8 +23,21 @@ function Mcq(props) {
   const [question, setQuestion] = useState("");
   var i = 0;
   let quizz = [];
+  const handleCheck = (e,v) => {
+    if(e.target.checked===true){
+      checkboxAnswers=[...answerBox,v];
+    }
+    else{
+      checkboxAnswers=[...answerBox];
+      let newArray=checkboxAnswers.filter((data)=>{
+        return data!==v;
+      });
+      checkboxAnswers=[...newArray];
+
+    }
+    setAnswerBox(checkboxAnswers);
+  };
   const handleSubmit = () => {
-    setAnswer(i++);
     let newQuizz = {
       option: option,
       answer: answer,
@@ -31,8 +47,9 @@ function Mcq(props) {
       option4: option4,
       question: question,
       type: props.event,
+      answerBox: answerBox,
     };
-    if (!isEmpty(question) && option !== 0 &&props.event===1) {
+    if (!isEmpty(question) && option !== 0 && props.event === 1) {
       quizz = [...props.totalQuizz, newQuizz];
       props.setQuizz(quizz);
       setQuestion("");
@@ -42,15 +59,21 @@ function Mcq(props) {
       setOption3("");
       setOption4("");
       setOption(0);
-    
-    }
-    else if(props.event===2&&answer!==""){
+    } else if (props.event === 2 && answer !== "") {
       quizz = [...props.totalQuizz, newQuizz];
       props.setQuizz(quizz);
       setQuestion("");
       setAnswer("");
-    } 
-    else {
+    } else if (props.event === 3 && !isEmpty(checkboxAnswers)) {
+      quizz = [...props.totalQuizz, newQuizz];
+      props.setQuizz(quizz);
+      setQuestion("");
+      setAnswer("");
+      setOption1("");
+      setOption2("");
+      setOption3("");
+      setOption4("");
+    } else {
       alert("Fill all fields");
     }
   };
@@ -122,8 +145,9 @@ function Mcq(props) {
                 />
               </RadioGroup>
             )}
+
             {props.event === 2 && (
-              <div className="margin">
+              <div>
                 <TextField
                   value={answer}
                   variant="filled"
@@ -133,6 +157,70 @@ function Mcq(props) {
                     setAnswer(event.target.value);
                   }}
                 ></TextField>
+              </div>
+            )}
+            {props.event === 3 && (
+              <div>
+                <div className="margin">
+                  <Checkbox
+                    onChange={(e) => {
+                      handleCheck(e,1);
+                    }}
+                  ></Checkbox>
+                  <TextField
+                    value={option1}
+                    variant="filled"
+                    label="Answer option 1"
+                    onChange={(event) => {
+                      setOption1(event.target.value);
+                    }}
+                  />
+                </div>
+                <div>
+                  <Checkbox
+                    onChange={(e) => {
+                      handleCheck(e,2);
+                    }}
+                  ></Checkbox>
+                  <TextField
+                    value={option2}
+                    variant="filled"
+                    label="Answer option 2"
+                    onChange={(event) => {
+                      setOption2(event.target.value);
+                    }}
+                  />
+                </div>
+                <div>
+                  <Checkbox
+                    onChange={(e) => {
+                      handleCheck(e,3);
+                    }}
+                  ></Checkbox>
+                  <TextField
+                    value={option3}
+                    variant="filled"
+                    label="Answer option 3"
+                    onChange={(event) => {
+                      setOption3(event.target.value);
+                    }}
+                  />
+                </div>
+                <div>
+                  <Checkbox
+                    onChange={(e) => {
+                      handleCheck(e,4);
+                    }}
+                  ></Checkbox>
+                  <TextField
+                    value={option4}
+                    variant="filled"
+                    label="Answer option 4"
+                    onChange={(event) => {
+                      setOption4(event.target.value);
+                    }}
+                  />
+                </div>
               </div>
             )}
           </FormControl>
