@@ -12,8 +12,10 @@ import {
   TextField,
   Checkbox,
 } from "@material-ui/core";
+import {useHistory} from 'react-router-dom';
 
 function ShowQuiz(props) {
+
   let quiz = props.quizz;
   let checkboxAnswers = [];
   const [answerBox, setAnswerBox] = useState([]);
@@ -25,6 +27,7 @@ function ShowQuiz(props) {
   const [points, setPoint] = useState(0);
   const [questionNumber, setNumber] = useState(0);
   const [helperText, setHelperText] = useState("");
+  const history=useHistory();
   const handleAnswer = (event, ans) => {
     setSelectedAnswer(event.target.value);
     setOriginalAnswer(ans);
@@ -49,38 +52,36 @@ function ShowQuiz(props) {
     newPlayer.reverse();
     props.setParticipants(newPlayer);
   }, [points]);
-  /*var timeObject=setInterval(quizTimer(),1000);
-  function quizTimer() {
-    var b;
-    if (time <= 0) {
-      clearInterval(timeObject);
+
+  const handleCheck = (event, v) => {
+    if (event.target.checked === true) {
+      checkboxAnswers = [...answerBox, v];
     } else {
-      var i = time;
-      i = i - 4;
-      setTime(i);
-      console.log(time);
-    }
-  }*/
-
-  const handleCheck=(event,v)=>{
-    if(event.target.checked===true){
-      checkboxAnswers=[...answerBox,v];
-    }
-    else{
-      checkboxAnswers=[...answerBox];
-      let newArray=checkboxAnswers.filter((data)=>{
-        return data!==v;
+      checkboxAnswers = [...answerBox];
+      let newArray = checkboxAnswers.filter((data) => {
+        return data !== v;
       });
-      checkboxAnswers=[...newArray];
-
+      checkboxAnswers = [...newArray];
     }
     setAnswerBox(checkboxAnswers);
-  }
+  };
+  //var count = 30;
+  /*useEffect(() => {
+    let timerObj = setInterval(function () {
+      //count = count - 1;
+      setTime((time) => time - 1);
+      console.log(time);
+      if (time === 0) {
+        console.log("time up");
+        clearInterval(timerObj);
+        checkNextQuestion();
+      }
+    }, 1000);
+  }, []);
+  const stopInterval = () => {};*/
   const checkAnswer = () => {
     if (quiz[questionNumber].type === 1) {
-      if (parseInt(selectedAnswer) === 0) {
-        setHelperText("select something");
-      } else if (parseInt(selectedAnswer) === parseInt(originalAnswer)) {
+      if (parseInt(selectedAnswer) === parseInt(originalAnswer)) {
         setHelperText("you got it");
         var p = points + 10;
         setPoint(p);
@@ -90,9 +91,7 @@ function ShowQuiz(props) {
         checkNextQuestion();
       }
     } else if (quiz[questionNumber].type === 2) {
-      if (fillAnswer === "") {
-        setHelperText("write something");
-      } else if (quiz[questionNumber].answer === fillAnswer) {
+      if (quiz[questionNumber].answer === fillAnswer) {
         setHelperText("you got it");
         var p = points + 10;
         setPoint(p);
@@ -102,7 +101,7 @@ function ShowQuiz(props) {
         checkNextQuestion();
       }
     } else if (quiz[questionNumber].type === 3) {
-      if (isEqual(quiz[questionNumber].answerBox,answerBox)) {
+      if (isEqual(quiz[questionNumber].answerBox, answerBox)) {
         setHelperText("you got it");
         var p = points + 10;
         setPoint(p);
@@ -125,11 +124,11 @@ function ShowQuiz(props) {
       setHelperText("Quiz over");
     }
   };
-  const isEqual=(arr1,arr2)=>{
-    var a1=arr1.sort().toString();
-    var a2=arr2.sort().toString();
-    return a1===a2;
-  }
+  const isEqual = (arr1, arr2) => {
+    var a1 = arr1.sort().toString();
+    var a2 = arr2.sort().toString();
+    return a1 === a2;
+  };
   return (
     <div>
       <div className="timer">
@@ -137,6 +136,9 @@ function ShowQuiz(props) {
           variant="determinate"
           value={time}
           color="secondary"
+          //onChange={(event) => {
+            //setTime(event.target.value);
+          //}}
         ></LinearProgress>
       </div>
       <div style={{ top: "0", marginTop: "2%" }}>
@@ -147,7 +149,9 @@ function ShowQuiz(props) {
           color="secondary"
           onClick={() => {
             setToggle(true);
+            setHelperText("Quiz over");
             alert("Quiz over");
+            history.push("/");
           }}
         >
           End Test
@@ -212,25 +216,49 @@ function ShowQuiz(props) {
             <div>
               <div>
                 <FormControlLabel
-                  control={<Checkbox onChange={(event)=>{handleCheck(event,1)}} />}
+                  control={
+                    <Checkbox
+                      onChange={(event) => {
+                        handleCheck(event, 1);
+                      }}
+                    />
+                  }
                   label={quiz[questionNumber].option1}
                 />
               </div>
               <div>
                 <FormControlLabel
-                  control={<Checkbox onChange={(event)=>{handleCheck(event,2)}} />}
+                  control={
+                    <Checkbox
+                      onChange={(event) => {
+                        handleCheck(event, 2);
+                      }}
+                    />
+                  }
                   label={quiz[questionNumber].option2}
                 />
               </div>
               <div>
                 <FormControlLabel
-                  control={<Checkbox onChange={(event)=>{handleCheck(event,3)}} />}
+                  control={
+                    <Checkbox
+                      onChange={(event) => {
+                        handleCheck(event, 3);
+                      }}
+                    />
+                  }
                   label={quiz[questionNumber].option3}
                 />
               </div>
               <div>
                 <FormControlLabel
-                  control={<Checkbox onChange={(event)=>{handleCheck(event,4)}} />}
+                  control={
+                    <Checkbox
+                      onChange={(event) => {
+                        handleCheck(event, 4);
+                      }}
+                    />
+                  }
                   label={quiz[questionNumber].option4}
                 />
               </div>

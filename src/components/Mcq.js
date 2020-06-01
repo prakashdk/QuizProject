@@ -9,7 +9,7 @@ import {
   Checkbox,
   Button,
 } from "@material-ui/core";
-import { Router } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 function Mcq(props) {
   let checkboxAnswers = [];
@@ -21,6 +21,7 @@ function Mcq(props) {
   const [option3, setOption3] = useState("");
   const [option4, setOption4] = useState("");
   const [question, setQuestion] = useState("");
+  const history=useHistory();
   var i = 0;
   let quizz = [];
   const handleCheck = (e,v) => {
@@ -59,11 +60,13 @@ function Mcq(props) {
       setOption3("");
       setOption4("");
       setOption(0);
+      history.push("/create/create-quizz");
     } else if (props.event === 2 && answer !== "") {
       quizz = [...props.totalQuizz, newQuizz];
       props.setQuizz(quizz);
       setQuestion("");
       setAnswer("");
+      history.push("/create/create-quizz");
     } else if (props.event === 3 && !isEmpty(checkboxAnswers)) {
       quizz = [...props.totalQuizz, newQuizz];
       props.setQuizz(quizz);
@@ -73,6 +76,7 @@ function Mcq(props) {
       setOption2("");
       setOption3("");
       setOption4("");
+      history.push("/create/create-quizz");
     } else {
       alert("Fill all fields");
     }
@@ -81,6 +85,7 @@ function Mcq(props) {
     let code = Math.round(100000 + Math.random() * 899999);
     props.setCode(code);
     alert("New Game code" + code);
+    history.push("/");
   };
   const isEmpty = (a) => {
     return a === null || a === undefined || a === "";

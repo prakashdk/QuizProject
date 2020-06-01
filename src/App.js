@@ -42,7 +42,7 @@ function App() {
         <Route exact path="/parcipants">
           <ShowParticipants></ShowParticipants>
         </Route>
-        <Route>
+        <Route to="/">
           <img className="logo" src={logo} alt="Logo" />
         </Route>
       </Switch>
