@@ -12,10 +12,9 @@ import {
   TextField,
   Checkbox,
 } from "@material-ui/core";
-import {useHistory} from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
 function ShowQuiz(props) {
-
   let quiz = props.quizz;
   let checkboxAnswers = [];
   const [answerBox, setAnswerBox] = useState([]);
@@ -27,7 +26,7 @@ function ShowQuiz(props) {
   const [points, setPoint] = useState(0);
   const [questionNumber, setNumber] = useState(0);
   const [helperText, setHelperText] = useState("");
-  const history=useHistory();
+  const history = useHistory();
   const handleAnswer = (event, ans) => {
     setSelectedAnswer(event.target.value);
     setOriginalAnswer(ans);
@@ -129,154 +128,161 @@ function ShowQuiz(props) {
     var a2 = arr2.sort().toString();
     return a1 === a2;
   };
+  const isEmpty = (a) => {
+    return a.length === 0;
+  };
   return (
     <div>
-      <div className="timer">
-        <LinearProgress
-          variant="determinate"
-          value={time}
-          color="secondary"
-          //onChange={(event) => {
-            //setTime(event.target.value);
-          //}}
-        ></LinearProgress>
-      </div>
-      <div style={{ top: "0", marginTop: "2%" }}>
-        <b style={{ float: "left" }}>Points : {points}</b>
-        <Button
-          style={{ float: "right" }}
-          variant="contained"
-          color="secondary"
-          onClick={() => {
-            setToggle(true);
-            setHelperText("Quiz over");
-            alert("Quiz over");
-            history.push("/");
-          }}
-        >
-          End Test
-        </Button>
-      </div>
-      <div className="content-body">
-        <FormControl component="fieldset">
-          <FormLabel
-            style={{
-              marginLeft: "-10%",
-              font: "bold",
-              fontSize: "30px",
-              color: "#2a3eb1",
-            }}
-          >
-            {questionNumber + 1}
-            {"."}
-            {quiz[questionNumber].question}
-          </FormLabel>
-          {quiz[questionNumber].type === 1 && (
-            <RadioGroup
-              value={selectedAnswer}
-              onChange={(event) => {
-                handleAnswer(event, quiz[questionNumber].option);
+      {!isEmpty(quiz) ?(
+        <div>
+          <div className="timer">
+            <LinearProgress
+              variant="determinate"
+              value={time}
+              color="secondary"
+              //onChange={(event) => {
+              //setTime(event.target.value);
+              //}}
+            ></LinearProgress>
+          </div>
+          <div style={{ top: "0", marginTop: "2%" }}>
+            <b style={{ float: "left" }}>Points : {points}</b>
+            <Button
+              style={{ float: "right" }}
+              variant="contained"
+              color="secondary"
+              onClick={() => {
+                setToggle(true);
+                setHelperText("Quiz over");
+                alert("Quiz over");
+                history.push("/");
               }}
             >
-              <FormControlLabel
-                value="1"
-                control={<Radio />}
-                label={quiz[questionNumber].option1}
-              />
-              <FormControlLabel
-                value="2"
-                control={<Radio />}
-                label={quiz[questionNumber].option2}
-              />
-              <FormControlLabel
-                value="3"
-                control={<Radio />}
-                label={quiz[questionNumber].option3}
-              />
-              <FormControlLabel
-                value="4"
-                control={<Radio />}
-                label={quiz[questionNumber].option4}
-              />
-            </RadioGroup>
-          )}
-          {quiz[questionNumber].type === 2 && (
-            <div className="margin">
-              <TextField
-                variant="standard"
-                label="Type Answer..."
-                fullWidth
-                onChange={(event) => {
-                  setFillAnswer(event.target.value);
+              End Test
+            </Button>
+          </div>
+          <div className="content-body">
+            <FormControl component="fieldset">
+              <FormLabel
+                style={{
+                  marginLeft: "-10%",
+                  font: "bold",
+                  fontSize: "30px",
+                  color: "#2a3eb1",
                 }}
-              ></TextField>
+              >
+                {questionNumber + 1}
+                {"."}
+                {quiz[questionNumber].question}
+              </FormLabel>
+              {quiz[questionNumber].type === 1 && (
+                <RadioGroup
+                  value={selectedAnswer}
+                  onChange={(event) => {
+                    handleAnswer(event, quiz[questionNumber].option);
+                  }}
+                >
+                  <FormControlLabel
+                    value="1"
+                    control={<Radio />}
+                    label={quiz[questionNumber].option1}
+                  />
+                  <FormControlLabel
+                    value="2"
+                    control={<Radio />}
+                    label={quiz[questionNumber].option2}
+                  />
+                  <FormControlLabel
+                    value="3"
+                    control={<Radio />}
+                    label={quiz[questionNumber].option3}
+                  />
+                  <FormControlLabel
+                    value="4"
+                    control={<Radio />}
+                    label={quiz[questionNumber].option4}
+                  />
+                </RadioGroup>
+              )}
+              {quiz[questionNumber].type === 2 && (
+                <div className="margin">
+                  <TextField
+                    variant="standard"
+                    label="Type Answer..."
+                    fullWidth
+                    onChange={(event) => {
+                      setFillAnswer(event.target.value);
+                    }}
+                  ></TextField>
+                </div>
+              )}
+              {quiz[questionNumber].type === 3 && (
+                <div>
+                  <div>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          onChange={(event) => {
+                            handleCheck(event, 1);
+                          }}
+                        />
+                      }
+                      label={quiz[questionNumber].option1}
+                    />
+                  </div>
+                  <div>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          onChange={(event) => {
+                            handleCheck(event, 2);
+                          }}
+                        />
+                      }
+                      label={quiz[questionNumber].option2}
+                    />
+                  </div>
+                  <div>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          onChange={(event) => {
+                            handleCheck(event, 3);
+                          }}
+                        />
+                      }
+                      label={quiz[questionNumber].option3}
+                    />
+                  </div>
+                  <div>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          onChange={(event) => {
+                            handleCheck(event, 4);
+                          }}
+                        />
+                      }
+                      label={quiz[questionNumber].option4}
+                    />
+                  </div>
+                </div>
+              )}
+              <FormHelperText error>{helperText}</FormHelperText>
+            </FormControl>
+            <div className="margin">
+              <Button
+                disabled={toggle}
+                variant="contained"
+                color="primary"
+                onClick={checkAnswer}
+              >
+                Next
+              </Button>
             </div>
-          )}
-          {quiz[questionNumber].type === 3 && (
-            <div>
-              <div>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      onChange={(event) => {
-                        handleCheck(event, 1);
-                      }}
-                    />
-                  }
-                  label={quiz[questionNumber].option1}
-                />
-              </div>
-              <div>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      onChange={(event) => {
-                        handleCheck(event, 2);
-                      }}
-                    />
-                  }
-                  label={quiz[questionNumber].option2}
-                />
-              </div>
-              <div>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      onChange={(event) => {
-                        handleCheck(event, 3);
-                      }}
-                    />
-                  }
-                  label={quiz[questionNumber].option3}
-                />
-              </div>
-              <div>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      onChange={(event) => {
-                        handleCheck(event, 4);
-                      }}
-                    />
-                  }
-                  label={quiz[questionNumber].option4}
-                />
-              </div>
-            </div>
-          )}
-          <FormHelperText error>{helperText}</FormHelperText>
-        </FormControl>
-        <div className="margin">
-          <Button
-            disabled={toggle}
-            variant="contained"
-            color="primary"
-            onClick={checkAnswer}
-          >
-            Next
-          </Button>
+          </div>
         </div>
-      </div>
+      ):(<h1 className="head">No Longer Quiz Available</h1>)}
     </div>
   );
 }

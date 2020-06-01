@@ -44,78 +44,91 @@ function ShowParticipants(props) {
       setHelperText("Invalid password");
     }
   };
+  const isEmpty = (a) => {
+    return a.length === 0;
+  };
   return (
     <div className="content-body">
-      <Router>
-        <Switch>
-          <Route exact path="/participants/winner">
-            <ShowWinner></ShowWinner>
-          </Route>
-          <Route>
-            <TableContainer>
-              <Table stickyHeader>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Position</TableCell>
-                    <TableCell>Player Name</TableCell>
-                    <TableCell>Points</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  <TableRow>
-                    <TableCell>1</TableCell>
-                    <TableCell>{props.participants[0].name}</TableCell>
-                    <TableCell>{props.participants[0].scores}</TableCell>
-                  </TableRow>
-                  {props.participants.map((data, i) => {
-                    if (i !== 0) {
-                      return (
-                        <TableRow key={data.name}>
-                          <TableCell>{i + 1}</TableCell>
-                          <TableCell>{data.name}</TableCell>
-                          <TableCell>{data.scores}</TableCell>
-                        </TableRow>
-                      );
-                    }
-                  })}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <div className="margin">
-              <Button variant="contained" color="secondary" onClick={handleEnd}>
-                End Quiz
-              </Button>
-            </div>
-            <Dialog open={open}>
-              <div style={{ padding: "20px" }}>
-                <DialogTitle>Are you sure want to end Quiz</DialogTitle>
-                <TextField
-                  label="Enter password"
-                  variant="filled"
-                  color="primary"
-                  type="password"
-                  error={error}
-                  onChange={handleChange}
-                ></TextField>
-                <FormHelperText error={error}>{helperText}</FormHelperText>
+      {!isEmpty(props.participants) ? (
+        <div>
+          <Router>
+            <Switch>
+              <Route exact path="/participants/winner">
+                <ShowWinner></ShowWinner>
+              </Route>
+              <Route>
+                <TableContainer>
+                  <Table stickyHeader>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Position</TableCell>
+                        <TableCell>Player Name</TableCell>
+                        <TableCell>Points</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell>1</TableCell>
+                        <TableCell>{props.participants[0].name}</TableCell>
+                        <TableCell>{props.participants[0].scores}</TableCell>
+                      </TableRow>
+                      {props.participants.map((data, i) => {
+                        if (i !== 0) {
+                          return (
+                            <TableRow key={data.name}>
+                              <TableCell>{i + 1}</TableCell>
+                              <TableCell>{data.name}</TableCell>
+                              <TableCell>{data.scores}</TableCell>
+                            </TableRow>
+                          );
+                        }
+                      })}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
                 <div className="margin">
-                  <Link to={link} className="end" onClick={handleWinner}>
-                    End
-                  </Link>
                   <Button
-                    style={{ float: "right", marginTop: "-3%" }}
-                    onClick={handleClose}
                     variant="contained"
-                    color="primary"
+                    color="secondary"
+                    onClick={handleEnd}
                   >
-                    View results
+                    End Quiz
                   </Button>
                 </div>
-              </div>
-            </Dialog>
-          </Route>
-        </Switch>
-      </Router>
+                <Dialog open={open}>
+                  <div style={{ padding: "20px" }}>
+                    <DialogTitle>Are you sure want to end Quiz</DialogTitle>
+                    <TextField
+                      label="Enter password"
+                      variant="filled"
+                      color="primary"
+                      type="password"
+                      error={error}
+                      onChange={handleChange}
+                    ></TextField>
+                    <FormHelperText error={error}>{helperText}</FormHelperText>
+                    <div className="margin">
+                      <Link to={link} className="end" onClick={handleWinner}>
+                        End
+                      </Link>
+                      <Button
+                        style={{ float: "right", marginTop: "-3%" }}
+                        onClick={handleClose}
+                        variant="contained"
+                        color="primary"
+                      >
+                        View results
+                      </Button>
+                    </div>
+                  </div>
+                </Dialog>
+              </Route>
+            </Switch>
+          </Router>
+        </div>
+      ) : (
+        <h1 className="head">No Longer Participants Available</h1>
+      )}
     </div>
   );
 }

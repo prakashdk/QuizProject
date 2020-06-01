@@ -1,25 +1,8 @@
 const initialState = {
-  totalQuizz: [
-    {
-      option: 4,
-      answer: "",
-      option1: "Ready",
-      option2: "Get",
-      option3: "Set",
-      option4: "Go",
-      question: "Status of your quiz...(For Checking)",
-      type: 1,
-      answerBox: [],
-    },
-  ],
+  totalQuizz: [],
   code: 123456,
   name: "",
-  participants: [
-    {
-      name: "Prakash",
-      scores: 10000,
-    },
-  ],
+  participants: [],
 };
 export default function reducer(state = initialState, action) {
   switch (action.type) {
